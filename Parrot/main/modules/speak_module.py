@@ -1,3 +1,6 @@
+
+#ONLY WORKS W/INTERNET CONNECTION
+# IT WILL BE CHANGED
 import os
 from gtts import gTTS
 from pathlib import Path
