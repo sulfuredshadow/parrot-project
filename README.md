@@ -1,5 +1,6 @@
-# parrot-project
-SAIPP A.K.A (Speaking Artif. Intelig. Parrot Project). Basically a project where I'll try to make a Parrot with local AI that speaks like a real one but without all the drawbacks. and offline...
+# SAIPP
+> A.K.A (Speaking Artif. Intelig. Parrot Project). 
+---
 
 # What's the deal?
 > A lot actually :3 
