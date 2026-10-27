@@ -3,7 +3,7 @@ import subprocess
 from modules.audio_utils import load_wav
 
 def synthesize(text, data_dir, tts_engine, espeak_voice, espeak_pitch, espeak_speed, piper_model, sample_rate):
-    """Texto -> audio con voz sintética. Devuelve None si falla."""
+    cmd = []
     tmp = data_dir / "tts_tmp.wav"
     try:
         if tts_engine == "piper":
@@ -15,7 +15,8 @@ def synthesize(text, data_dir, tts_engine, espeak_voice, espeak_pitch, espeak_sp
                        capture_output=True, timeout=30)
         return load_wav(tmp, sample_rate)
     except FileNotFoundError:
-        print(f"[aviso] no encuentro '{cmd[0]}'. Instálalo o usa VOICE_MODE='original'.")
+        engine_name = cmd[0] if cmd else tts_engine
+        print(f"[aviso] no encuentro '{engine_name}'. Instálalo o usa VOICE_MODE='original'.")
     except Exception as e:
         print(f"[aviso] falló la voz sintética: {e}")
     return None

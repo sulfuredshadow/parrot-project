@@ -12,7 +12,6 @@ from modules.database import init_db, prune_db
 from modules.audio_utils import save_wav, load_wav, chirp, mutate
 from modules.tts import synthesize
 
-# ===================== CONFIGURACIÓN =====================
 SAMPLE_RATE = 16000
 BLOCK_SECONDS = 0.05
 MIN_PHRASE_S = 0.4
@@ -43,26 +42,34 @@ MAX_CLIPS = 300
 WHISPER_MODEL = "tiny"
 LANGUAGE = "es"
 DATA_DIR = Path("parrot_data")
-# ==========================================================
 
 BLOCK = int(SAMPLE_RATE * BLOCK_SECONDS)
 
 class Parrot:
     def __init__(self, use_stt=True, voice_mode=VOICE_MODE):
-        (DATA_DIR / "clips").mkdir(parents=True, exist_ok=True)
-        self.voice_mode = voice_mode
-        self.db = init_db(DATA_DIR)
-        self.playing = False
-        self.stt = None
-        if use_stt:
-            from faster_whisper import WhisperModel
-            print(f"Cargando Whisper '{WHISPER_MODEL}' (la primera vez descarga el modelo)...")
-            self.stt = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
+            (DATA_DIR / "clips").mkdir(parents=True, exist_ok=True)
+            self.voice_mode = voice_mode
+            self.db = init_db(DATA_DIR)
+            self.playing = False
+            self.stt = None
+            if use_stt:
+                from faster_whisper import WhisperModel
+                print(f"Cargando Whisper '{WHISPER_MODEL}'...")
+                self.stt = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
 
     def transcribe(self, audio):
-        segments, _ = self.stt.transcribe(audio, language=LANGUAGE, beam_size=1)
-        text = " ".join(s.text for s in segments).lower()
-        return re.sub(r"[^\w\s]", "", text).strip()
+        if self.stt is None or audio is None or len(audio) == 0:
+            return ""
+        try:
+            audio = np.asarray(audio, dtype=np.float32)
+            if audio.ndim > 1:
+                 audio = audio.mean(axis=1)
+            segments, _ = self.stt.transcribe(audio, language=LANGUAGE, beam_size=1)
+            text = " ".join(s.text for s in segments).lower()
+            return re.sub(r"[^\w\s]", "", text).strip()
+        except Exception as e:
+            print(f"Error en la transcripción: {e}")
+            return ""
 
     def learn(self, audio):
         text = None
