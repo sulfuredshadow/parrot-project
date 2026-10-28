@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""
-Loro local: escucha, aprende frases y las repite como un loro.
-"""
 import argparse
 import sounddevice as sd
+import os; os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 from modules.parrot_core import Parrot, VOICE_MODE
 
 def main():
@@ -33,6 +31,8 @@ def main():
             parrot.run()
         except KeyboardInterrupt:
             print("\nAdios, lorito.")
+
+
 
 if __name__ == "__main__":
     main()

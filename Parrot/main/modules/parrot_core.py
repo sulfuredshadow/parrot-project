@@ -18,7 +18,7 @@ MIN_PHRASE_S = 0.4
 MAX_PHRASE_S = 8.0
 END_SILENCE_S = 0.8
 PREROLL_S = 0.3
-NOISE_FACTOR = 3.0
+NOISE_FACTOR = 1.5
 MIN_THRESHOLD = 0.01
 
 ECHO_PROB = 0.6
@@ -75,7 +75,9 @@ class Parrot:
         text = None
         if self.stt:
             text = self.transcribe(audio)
+            print(f"[DEBUG] Texto transcrito por Whisper: '{text}' (Longitud: {len(text) if text else 0})")
             if len(text) < 2:
+                print("[DEBUG] Frase descartada por ser muy corta o vacía.")
                 return None
         now = time.time()
         if text:
