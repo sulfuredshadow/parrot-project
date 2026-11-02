@@ -12,7 +12,6 @@ def save_wav(path, audio, sample_rate):
         w.writeframes(pcm.tobytes())
 
 def load_wav(path, sample_rate):
-    """Carga un WAV como float32 mono a SAMPLE_RATE."""
     with wave.open(str(path), "rb") as w:
         rate, channels = w.getframerate(), w.getnchannels()
         pcm = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16)
@@ -26,7 +25,6 @@ def load_wav(path, sample_rate):
     return audio
 
 def chirp(sample_rate):
-    """Un 'pio' de loro: barrido de tono corto con envolvente suave."""
     dur = random.uniform(0.15, 0.35)
     t = np.linspace(0, dur, int(sample_rate * dur), endpoint=False)
     f0 = random.uniform(1200, 2200)
@@ -35,7 +33,6 @@ def chirp(sample_rate):
     return (0.4 * np.sin(phase) * np.sin(np.pi * t / dur)).astype(np.float32)
 
 def mutate(audio, pitch_range, sample_rate, truncate_prob):
-    """Pequeñas variaciones para que suene a loro y no a grabadora."""
     if random.random() < truncate_prob and len(audio) > sample_rate:
         audio = audio[int(len(audio) * random.uniform(0.4, 0.6)):]
     factor = random.uniform(*pitch_range)

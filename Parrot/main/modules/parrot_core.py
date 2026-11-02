@@ -4,10 +4,8 @@ import random
 import re
 import time
 from pathlib import Path
-
 import numpy as np
 import sounddevice as sd
-
 from modules.database import init_db, prune_db
 from modules.audio_utils import save_wav, load_wav, chirp, mutate
 from modules.tts import synthesize
@@ -173,11 +171,11 @@ class Parrot:
 
         with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="float32",
                             blocksize=BLOCK, callback=callback):
-            print("Calibrando ruido ambiente (1 s, silencio por favor)...")
+            print("Calibrando ruido ambiente silence pls...")
             levels = [float(np.sqrt(np.mean(q.get() ** 2))) for _ in range(int(1 / BLOCK_SECONDS))]
             threshold = max(MIN_THRESHOLD, float(np.mean(levels)) * NOISE_FACTOR)
             print(f"Umbral de voz: {threshold:.4f}. Voz: {self.voice_mode}. "
-                  "Loro escuchando. (Ctrl+C para salir)")
+                  "Loro escuchando.")
 
             preroll = deque(maxlen=int(PREROLL_S / BLOCK_SECONDS))
             frames, recording, silent = [], False, 0
