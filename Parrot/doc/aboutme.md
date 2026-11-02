@@ -4,15 +4,15 @@
 
 ## Heya! >"<
 > I'm Sulfured Shadow and I love anime  <<I'm a solo player, got it?>>
+> Sword Art Online for ever :3
 ---
 
  > Anyway I'm kinda new when it comes to publish your work publically, so all the help is well appreciated.
 ---
-
 > [!NOTE]
 > I hope this project actually comes to live some time soon. Untill the end stay tunned.
 ---
-
+---
 >[!WARNING]
 > Bbye!
-------
+> Cya next time!
