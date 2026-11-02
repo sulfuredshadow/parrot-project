@@ -30,9 +30,7 @@ def main():
         try:
             parrot.run()
         except KeyboardInterrupt:
-            print("\nAdios, lorito.")
-
-
+            print("\nSaliendo...")
 
 if __name__ == "__main__":
     main()
